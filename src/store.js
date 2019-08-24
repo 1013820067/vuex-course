@@ -15,7 +15,7 @@ export default new Vuex.Store({
     ]
   },
   getters: {
-    count: state => ++state.count,
+    count: state => state.count,
     completedTodos: state => state.todos.filter(todo => todo.completed),
     completedTodosCount: (state, getters) => getters.completedTodos.length,
     getTodosById: state => id => state.todos.find(todo => todo.id == id)
@@ -25,7 +25,8 @@ export default new Vuex.Store({
     // }
   },
   mutations: {
-
+    incrementCount: state => state.count++,
+    decrementCount: (state, payload) => state.count -= payload.amount
   },
   actions: {
 
