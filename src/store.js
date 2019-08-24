@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Axios from 'axios';
 
 Vue.use(Vuex)
 
@@ -26,10 +27,32 @@ export default new Vuex.Store({
   },
   mutations: {
     incrementCount: state => state.count++,
-    decrementCount: (state, payload) => state.count -= payload.amount
+    decrementCount: (state, payload) => state.count -= payload.amount,
+    setTodos: (state, todos) => state.todos = todos
   },
   actions: {
+    incrementCountAsync: ({ commit }) => {
 
+      setTimeout(() => {
+        // 解构
+        // const object = {
+        //   name: "zzw",
+        //   age: 22
+        // }
+        // const { name, age } = object;
+        commit("incrementCount")
+      }, 2000)
+    },
+    decrementCountAsync: (context, payload) => {
+      setTimeout(() => {
+        context/* =this.$store */.commit("decrementCount", payload)
+      }, 2000)
+    },
+    async fetchDataAsync(context) {
+      const response = await Axios.get("http://jsonplaceholder.typicode.com/todos");
+      // console.log(response);
+      context.commit("setTodos", response.data);
+    }
   }
 })
 
